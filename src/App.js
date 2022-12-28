@@ -1,6 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import "./App.css";
 import { useState, useEffect, useRef } from "react";
+import { Helmet } from "react-helmet";
 import {
   useNavigate,
   useLocation,
@@ -49,6 +50,9 @@ function ImagePage() {
 
   return (
     <div className="py-4 px-4 text-violet-400 font-bold" css={imagePageStyle}>
+      <Helmet>
+        <title>{fileName} | Nostrimg</title>
+      </Helmet>
       <img
         className="mx-auto rounded"
         css={imgStyle}
@@ -478,6 +482,14 @@ function App() {
   return (
     <BrowserRouter>
       <div className="App bg-indigo-900">
+        <Helmet>
+          <title>Nostrimg</title>
+          <meta
+            name="description"
+            content="Nostrimg is Nostr-native image hosting service."
+          />
+          <meta name="keywords" content="image hosting, nostr" />
+        </Helmet>
         <Routes>
           <Route path="/" element={<FileUploader />} />
           <Route path="/i/:fileName" element={<ImagePage />} />
