@@ -495,6 +495,11 @@ function App() {
               content="Nostrimg is Nostr-native image hosting service."
             />
             <meta name="keywords" content="image hosting, nostr" />
+            <meta
+              property="og:image"
+              content="https://i.nostrimg.com/29112b4c.png"
+              data-rh="true"
+            />
           </Helmet>
           <Routes>
             <Route path="/" element={<FileUploader />} />
