@@ -2,7 +2,7 @@
 import "./App.css";
 import { useState, useEffect, useRef } from "react";
 // import { Helmet } from "react-helmet";
-import { Helmet, HelmetProvider } from "react-helmet-async";
+import { Helmet } from "react-helmet-async";
 import {
   useNavigate,
   useLocation,
@@ -485,29 +485,27 @@ function AuthModal({ setIsAuthenticatedCallback }) {
 
 function App() {
   return (
-    <HelmetProvider>
-      <BrowserRouter>
-        <div className="App bg-indigo-900">
-          <Helmet>
-            <title>Nostrimg</title>
-            <meta
-              name="description"
-              content="Nostrimg is Nostr-native image hosting service."
-            />
-            <meta name="keywords" content="image hosting, nostr" />
-            <meta
-              property="og:image"
-              content="https://i.nostrimg.com/29112b4c.png"
-              data-rh="true"
-            />
-          </Helmet>
-          <Routes>
-            <Route path="/" element={<FileUploader />} />
-            <Route path="/i/:fileName" element={<ImagePage />} />
-          </Routes>
-        </div>
-      </BrowserRouter>
-    </HelmetProvider>
+    <BrowserRouter>
+      <div className="App bg-indigo-900">
+        <Helmet>
+          <title>Nostrimg</title>
+          <meta
+            name="description"
+            content="Nostrimg is Nostr-native image hosting service."
+          />
+          <meta name="keywords" content="image hosting, nostr" />
+          <meta
+            property="og:image"
+            content="https://i.nostrimg.com/29112b4c.png"
+            data-rh="true"
+          />
+        </Helmet>
+        <Routes>
+          <Route path="/" element={<FileUploader />} />
+          <Route path="/i/:fileName" element={<ImagePage />} />
+        </Routes>
+      </div>
+    </BrowserRouter>
   );
 }
 
