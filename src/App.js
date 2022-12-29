@@ -50,106 +50,108 @@ function ImagePage() {
   }, [copied, fileName]);
 
   return (
-    <HelmetProvider>
-      <div className="py-4 px-4 text-violet-400 font-bold" css={imagePageStyle}>
-        <Helmet>
-          <title>{fileName} | Nostrimg</title>
-        </Helmet>
-        <img
-          className="mx-auto rounded"
-          css={imgStyle}
-          src={`https://i.nostrimg.com/${fileName}`}
-          alt={fileName}
+    <div className="py-4 px-4 text-violet-400 font-bold" css={imagePageStyle}>
+      <Helmet>
+        <title>{fileName} | Nostrimg</title>
+        <meta
+          property="og:image"
+          content={`https://i.nostrimg.com/${fileName}`}
         />
-        <h3 className="mb-4 py-8">
-          <div>Direct Link:</div>
+      </Helmet>
+      <img
+        className="mx-auto rounded"
+        css={imgStyle}
+        src={`https://i.nostrimg.com/${fileName}`}
+        alt={fileName}
+      />
+      <h3 className="mb-4 py-8">
+        <div>Direct Link:</div>
+        <span
+          className="bg-violet-400 text-indigo-900 p-2 rounded cursor-pointer break-all text-xs md:text-base"
+          onClick={() => setCopied(true)}
+        >
+          https://i.nostrimg.com/{fileName}{" "}
           <span
-            className="bg-violet-400 text-indigo-900 p-2 rounded cursor-pointer break-all text-xs md:text-base"
-            onClick={() => setCopied(true)}
-          >
-            https://i.nostrimg.com/{fileName}{" "}
-            <span
-              css={
-                {
-                  // minHeight: "100vh",
-                  // display: "flex",
-                  // justifyContent: "center",
-                  // alignItems: "center",
-                }
+            css={
+              {
+                // minHeight: "100vh",
+                // display: "flex",
+                // justifyContent: "center",
+                // alignItems: "center",
               }
+            }
+          >
+            <button
+              css={{
+                appearance: "none",
+                padding: 8,
+                border: 0,
+                outline: 0,
+                cursor: "pointer",
+              }}
             >
-              <button
+              <div
                 css={{
-                  appearance: "none",
-                  padding: 8,
-                  border: 0,
-                  outline: 0,
-                  cursor: "pointer",
+                  position: "relative",
+                  height: 16,
+                  width: 16,
                 }}
               >
-                <div
+                <Clippy
                   css={{
-                    position: "relative",
-                    height: 16,
-                    width: 16,
+                    color: "rgb(192, 192, 192)",
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                    strokeDasharray: 50,
+                    strokeDashoffset: copied ? -50 : 0,
+                    transition: "all 300ms ease-in-out",
                   }}
-                >
-                  <Clippy
-                    css={{
-                      color: "rgb(192, 192, 192)",
-                      position: "absolute",
-                      top: 0,
-                      left: 0,
-                      strokeDasharray: 50,
-                      strokeDashoffset: copied ? -50 : 0,
-                      transition: "all 300ms ease-in-out",
-                    }}
-                  />
-                  <Check
-                    // isVisible={copied}
-                    css={{
-                      color: "rgb(64, 192, 0)",
-                      position: "absolute",
-                      top: 0,
-                      left: 0,
-                      strokeDasharray: 50,
-                      strokeDashoffset: copied ? 0 : -50,
-                      transition: "all 300ms ease-in-out",
-                    }}
-                  />
-                </div>
-              </button>
-            </span>
+                />
+                <Check
+                  // isVisible={copied}
+                  css={{
+                    color: "rgb(64, 192, 0)",
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                    strokeDasharray: 50,
+                    strokeDashoffset: copied ? 0 : -50,
+                    transition: "all 300ms ease-in-out",
+                  }}
+                />
+              </div>
+            </button>
           </span>
-        </h3>
-        {location.state?.lightningPaymentLink ? (
-          <a href={location.state.lightningPaymentLink}>
-            <div className="flex flex-col md:flex-row items-center justify-center">
-              <QRCodeSVG
-                className="p-1 rounded bg-violet-400 mb-2 md:mb-0"
-                value={location.state.lightningPaymentLink}
-                imageSettings={{
-                  src: "https://i.nostrimg.com/e59c502d.png",
-                  width: 20,
-                  height: 20,
-                  excavate: true,
-                }}
-              />
-              <div className="flex flex-col">
-                <h3 className="text-yellow-500 md:ml-16 mb-2 text-xs md:text-base">
-                  {/* Lightning: {location.state.lightningDestination} */}
-                  <RiArrowLeftCircleLine className="hidden md:inline" /> Tip Us
-                  Via Lightning
-                </h3>
-                <div className="bg-violet-400 text-indigo-900 p-2 rounded cursor-pointer break-all text-xs md:text-base md:ml-16">
-                  Open In Wallet
-                </div>
+        </span>
+      </h3>
+      {location.state?.lightningPaymentLink ? (
+        <a href={location.state.lightningPaymentLink}>
+          <div className="flex flex-col md:flex-row items-center justify-center">
+            <QRCodeSVG
+              className="p-1 rounded bg-violet-400 mb-2 md:mb-0"
+              value={location.state.lightningPaymentLink}
+              imageSettings={{
+                src: "https://i.nostrimg.com/e59c502d.png",
+                width: 20,
+                height: 20,
+                excavate: true,
+              }}
+            />
+            <div className="flex flex-col">
+              <h3 className="text-yellow-500 md:ml-16 mb-2 text-xs md:text-base">
+                {/* Lightning: {location.state.lightningDestination} */}
+                <RiArrowLeftCircleLine className="hidden md:inline" /> Tip Us
+                Via Lightning
+              </h3>
+              <div className="bg-violet-400 text-indigo-900 p-2 rounded cursor-pointer break-all text-xs md:text-base md:ml-16">
+                Open In Wallet
               </div>
             </div>
-          </a>
-        ) : null}
-      </div>
-    </HelmetProvider>
+          </div>
+        </a>
+      ) : null}
+    </div>
   );
 }
 
