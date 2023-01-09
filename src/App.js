@@ -26,7 +26,7 @@ const imagePageStyle = css`
   max-width: 600px;
   margin: auto;
   min-height: 100vh;
-  font-family: "Fira Code", sans-serif;
+  font-family: "Fira Code", monospace;
 `;
 
 const imgStyle = css``;
@@ -50,7 +50,7 @@ function ImagePage() {
   }, [copied, fileName]);
 
   return (
-    <div className="py-4 px-4 text-violet-400 font-bold" css={imagePageStyle}>
+    <div className="py-4 px-4 text-violet-200 font-bold" css={imagePageStyle}>
       <Helmet>
         <title>{fileName} | Nostrimg</title>
         <meta
@@ -67,7 +67,7 @@ function ImagePage() {
       <h3 className="mb-4 py-8">
         <div>Direct Link:</div>
         <span
-          className="bg-violet-400 text-indigo-900 p-2 rounded cursor-pointer break-all text-xs md:text-base"
+          className="bg-violet-400 text-indigo-900 p-2 rounded cursor-pointer break-word text-xs md:text-base"
           onClick={() => setCopied(true)}
         >
           https://i.nostrimg.com/{fileName}{" "}
@@ -144,7 +144,7 @@ function ImagePage() {
                 <RiArrowLeftCircleLine className="hidden md:inline" /> Tip Us
                 Via Lightning
               </h3>
-              <div className="bg-violet-400 text-indigo-900 p-2 rounded cursor-pointer break-all text-xs md:text-base md:ml-16">
+              <div className="bg-violet-400 text-indigo-900 p-2 rounded cursor-pointer break-word text-xs md:text-base md:ml-16">
                 Open In Wallet
               </div>
             </div>
@@ -199,7 +199,7 @@ const fileUploaderStyle = css`
   justify-content: center;
   min-height: 100vh;
   width: 100vw;
-  font-family: "Fira Sans", sans-serif;
+  font-family: "Fira Code", monospace;
   cursor: pointer;
 `;
 
@@ -318,7 +318,7 @@ function FileUploader() {
       )}
       <label
         htmlFor="file"
-        className={`bg-indigo-900 text-violet-400 font-bold`}
+        className={`bg-indigo-900 text-violet-300 font-bold`}
         css={fileUploaderStyle}
         onDrop={handleDrop}
         onDragOver={handleDragOver}
@@ -326,7 +326,7 @@ function FileUploader() {
         ref={fileInputLabelRef}
       >
         <label htmlFor="file" className="cursor-pointer">
-          <div>
+          <div className="max-w-xs">
             <h1 className="font-bold italic text-5xl w-full">Nostrimg</h1>
             <div ref={imageIconRef}>
               <RiImage2Line
@@ -440,44 +440,49 @@ function AuthModal({ setIsAuthenticatedCallback }) {
 
   return (
     <div
-      className={`absolute flex flex-col items-center justify-center bg-violet-400 bg-opacity-95 w-full break-all h-full font-bold text-indigo-900 ${fadeProp.fade}`}
+      className={`absolute flex flex-col items-center justify-center bg-violet-400 bg-opacity-95 w-full break-word h-full font-bold text-indigo-900 ${fadeProp.fade}`}
     >
-      <div className="flex flex-col items-center justify-center p-4 md:max-w-screen-xl mx-auto bg-violet-400 rounded-xl">
-        <div className="mb-2 bg-violet-400 rounded">
-          {fadeProp.isFadingOut
-            ? "Authenticated!"
-            : "Pay 100 SATS To Prove You're Human"}
+      <div className=" flex-grow flex flex-col items-center justify-center">
+        <div className="flex flex-col items-center justify-center p-4 md:max-w-screen-xl mx-auto bg-violet-400 rounded-xl">
+          <div className="mb-2 bg-violet-400 rounded">
+            {fadeProp.isFadingOut
+              ? "Authenticated!"
+              : "Pay 100 SATS To Prove You're Human"}
+          </div>
+          {authInit && (
+            <>
+              <div className="mb-2">
+                {/* {authInit.lightningDestination} */}
+                {fadeProp.isFadingOut ? (
+                  <RiCheckFill className="text-green-500 text-9xl" />
+                ) : (
+                  <a href={authInit.lightningPaymentLink}>
+                    <QRCodeSVG
+                      className="rounded bg-violet-400"
+                      value={authInit.lightningPaymentLink}
+                      size="200"
+                      imageSettings={{
+                        src: "https://i.nostrimg.com/e59c502d.png",
+                        width: 20,
+                        height: 20,
+                        excavate: true,
+                      }}
+                    />
+                  </a>
+                )}
+              </div>
+              <a
+                href={authInit.lightningPaymentLink}
+                className="bg-indigo-900 text-violet-300 p-2 rounded"
+              >
+                Open In Wallet
+              </a>
+            </>
+          )}
         </div>
-        {authInit && (
-          <>
-            <div className="mb-2">
-              {/* {authInit.lightningDestination} */}
-              {fadeProp.isFadingOut ? (
-                <RiCheckFill className="text-green-500 text-9xl" />
-              ) : (
-                <a href={authInit.lightningPaymentLink}>
-                  <QRCodeSVG
-                    className="rounded bg-violet-400"
-                    value={authInit.lightningPaymentLink}
-                    size="200"
-                    imageSettings={{
-                      src: "https://i.nostrimg.com/e59c502d.png",
-                      width: 20,
-                      height: 20,
-                      excavate: true,
-                    }}
-                  />
-                </a>
-              )}
-            </div>
-            <a
-              href={authInit.lightningPaymentLink}
-              className="bg-indigo-900 text-violet-400 p-2 rounded"
-            >
-              Open In Wallet
-            </a>
-          </>
-        )}
+      </div>
+      <div className="text-violet-300 p-2 bg-indigo-900 w-full border-t border-violet-300">
+        Delivered lightning fast ⚡️ w/ S3+Cloudfront
       </div>
     </div>
   );
