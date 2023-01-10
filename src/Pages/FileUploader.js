@@ -5,13 +5,13 @@ import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { RiImage2Line, RiLoader4Fill } from "react-icons/ri";
 import AuthModal from "../Components/AuthModal";
+import Header from "../Components/Header";
 
 const fileUploaderStyle = css`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 100vh;
   width: 100vw;
   font-family: "Fira Code", monospace;
   cursor: pointer;
@@ -134,13 +134,14 @@ function FileUploader() {
   `;
 
   return (
-    <div>
+    <div className="h-screen flex flex-col">
       {isAuthenticated ? null : (
         <AuthModal setIsAuthenticatedCallback={setIsAuthenticated} />
       )}
+      <Header />
       <label
         htmlFor="file"
-        className={`bg-indigo-900 text-violet-300 font-bold`}
+        className={`bg-indigo-900 text-violet-300 font-bold flex-grow`}
         css={fileUploaderStyle}
         onDrop={handleDrop}
         onDragOver={handleDragOver}
@@ -149,7 +150,7 @@ function FileUploader() {
       >
         <label htmlFor="file" className="cursor-pointer">
           <div className="max-w-xs">
-            <h1 className="font-bold italic text-5xl w-full">Nostrimg</h1>
+            {/* <h1 className="font-bold italic text-5xl w-full">Nostrimg</h1> */}
             <div ref={imageIconRef}>
               <RiImage2Line
                 css={css`

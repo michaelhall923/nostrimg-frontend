@@ -7,6 +7,7 @@ import { QRCodeSVG } from "qrcode.react";
 import { RiArrowLeftCircleLine } from "react-icons/ri";
 import Clippy from "../Components/Clippy";
 import Check from "../Components/Check";
+import Header from "../Components/Header";
 
 const imgStyle = css``;
 
@@ -37,7 +38,7 @@ function ImagePage() {
   }, [copied, fileName]);
 
   return (
-    <div className="py-4 px-4 text-violet-200 font-bold" css={imagePageStyle}>
+    <div>
       <Helmet>
         <title>{fileName} | Nostrimg</title>
         <meta
@@ -45,88 +46,91 @@ function ImagePage() {
           content={`https://i.nostrimg.com/${fileName}`}
         />
       </Helmet>
-      <img
-        className="mx-auto rounded"
-        css={imgStyle}
-        src={`https://i.nostrimg.com/${fileName}`}
-        alt={fileName}
-      />
-      <h3 className="mb-4 py-8">
-        <div>Direct Link:</div>
-        <span
-          className="bg-violet-400 text-indigo-900 p-2 rounded cursor-pointer break-word text-xs md:text-base"
-          onClick={() => setCopied(true)}
-        >
-          https://i.nostrimg.com/{fileName}{" "}
-          <span>
-            <button
-              css={{
-                appearance: "none",
-                padding: 8,
-                border: 0,
-                outline: 0,
-                cursor: "pointer",
-              }}
-            >
-              <div
+      <Header />
+      <div className="py-4 px-4 text-violet-200 font-bold" css={imagePageStyle}>
+        <img
+          className="mx-auto rounded"
+          css={imgStyle}
+          src={`https://i.nostrimg.com/${fileName}`}
+          alt={fileName}
+        />
+        <h3 className="mb-4 py-8">
+          <div>Direct Link:</div>
+          <span
+            className="bg-violet-400 text-indigo-900 p-2 rounded cursor-pointer break-word text-xs md:text-base"
+            onClick={() => setCopied(true)}
+          >
+            https://i.nostrimg.com/{fileName}{" "}
+            <span>
+              <button
                 css={{
-                  position: "relative",
-                  height: 16,
-                  width: 16,
+                  appearance: "none",
+                  padding: 8,
+                  border: 0,
+                  outline: 0,
+                  cursor: "pointer",
                 }}
               >
-                <Clippy
+                <div
                   css={{
-                    color: "rgb(192, 192, 192)",
-                    position: "absolute",
-                    top: 0,
-                    left: 0,
-                    strokeDasharray: 50,
-                    strokeDashoffset: copied ? -50 : 0,
-                    transition: "all 300ms ease-in-out",
+                    position: "relative",
+                    height: 16,
+                    width: 16,
                   }}
-                />
-                <Check
-                  css={{
-                    color: "rgb(64, 192, 0)",
-                    position: "absolute",
-                    top: 0,
-                    left: 0,
-                    strokeDasharray: 50,
-                    strokeDashoffset: copied ? 0 : -50,
-                    transition: "all 300ms ease-in-out",
-                  }}
-                />
-              </div>
-            </button>
+                >
+                  <Clippy
+                    css={{
+                      color: "rgb(192, 192, 192)",
+                      position: "absolute",
+                      top: 0,
+                      left: 0,
+                      strokeDasharray: 50,
+                      strokeDashoffset: copied ? -50 : 0,
+                      transition: "all 300ms ease-in-out",
+                    }}
+                  />
+                  <Check
+                    css={{
+                      color: "rgb(64, 192, 0)",
+                      position: "absolute",
+                      top: 0,
+                      left: 0,
+                      strokeDasharray: 50,
+                      strokeDashoffset: copied ? 0 : -50,
+                      transition: "all 300ms ease-in-out",
+                    }}
+                  />
+                </div>
+              </button>
+            </span>
           </span>
-        </span>
-      </h3>
-      {location.state?.lightningPaymentLink ? (
-        <a href={location.state.lightningPaymentLink}>
-          <div className="flex flex-col md:flex-row items-center justify-center">
-            <QRCodeSVG
-              className="p-1 rounded bg-violet-400 mb-2 md:mb-0"
-              value={location.state.lightningPaymentLink}
-              imageSettings={{
-                src: "https://i.nostrimg.com/e59c502d.png",
-                width: 20,
-                height: 20,
-                excavate: true,
-              }}
-            />
-            <div className="flex flex-col">
-              <h3 className="text-yellow-500 md:ml-16 mb-2 text-xs md:text-base">
-                <RiArrowLeftCircleLine className="hidden md:inline" /> Tip Us
-                Via Lightning
-              </h3>
-              <div className="bg-violet-400 text-indigo-900 p-2 rounded cursor-pointer break-word text-xs md:text-base md:ml-16">
-                Open In Wallet
+        </h3>
+        {location.state?.lightningPaymentLink ? (
+          <a href={location.state.lightningPaymentLink}>
+            <div className="flex flex-col md:flex-row items-center justify-center">
+              <QRCodeSVG
+                className="p-1 rounded bg-violet-400 mb-2 md:mb-0"
+                value={location.state.lightningPaymentLink}
+                imageSettings={{
+                  src: "https://i.nostrimg.com/e59c502d.png",
+                  width: 20,
+                  height: 20,
+                  excavate: true,
+                }}
+              />
+              <div className="flex flex-col">
+                <h3 className="text-yellow-500 md:ml-16 mb-2 text-xs md:text-base">
+                  <RiArrowLeftCircleLine className="hidden md:inline" /> Tip Us
+                  Via Lightning
+                </h3>
+                <div className="bg-violet-400 text-indigo-900 p-2 rounded cursor-pointer break-word text-xs md:text-base md:ml-16">
+                  Open In Wallet
+                </div>
               </div>
             </div>
-          </div>
-        </a>
-      ) : null}
+          </a>
+        ) : null}
+      </div>
     </div>
   );
 }
