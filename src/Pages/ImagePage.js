@@ -58,16 +58,7 @@ function ImagePage() {
           onClick={() => setCopied(true)}
         >
           https://i.nostrimg.com/{fileName}{" "}
-          <span
-            css={
-              {
-                // minHeight: "100vh",
-                // display: "flex",
-                // justifyContent: "center",
-                // alignItems: "center",
-              }
-            }
-          >
+          <span>
             <button
               css={{
                 appearance: "none",
@@ -96,7 +87,6 @@ function ImagePage() {
                   }}
                 />
                 <Check
-                  // isVisible={copied}
                   css={{
                     color: "rgb(64, 192, 0)",
                     position: "absolute",
@@ -127,7 +117,6 @@ function ImagePage() {
             />
             <div className="flex flex-col">
               <h3 className="text-yellow-500 md:ml-16 mb-2 text-xs md:text-base">
-                {/* Lightning: {location.state.lightningDestination} */}
                 <RiArrowLeftCircleLine className="hidden md:inline" /> Tip Us
                 Via Lightning
               </h3>
