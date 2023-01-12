@@ -3,6 +3,7 @@ import { Helmet } from "react-helmet-async";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ImagePage from "./Pages/ImagePage";
 import FileUploader from "./Pages/FileUploader";
+import Nips from "./Pages/Nips";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
         <Routes>
           <Route path="/" element={<FileUploader />} />
           <Route path="/i/:fileName" element={<ImagePage />} />
+          <Route path="/nips" element={<Nips />} />
         </Routes>
       </div>
     </BrowserRouter>
