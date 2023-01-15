@@ -3,8 +3,9 @@ import { useState, useEffect, useRef } from "react";
 import { RiCheckFill } from "react-icons/ri";
 import { QRCodeSVG } from "qrcode.react";
 
-function AuthModal({ setIsAuthenticatedCallback }) {
+function AuthModal() {
   const [isAuthenticated, setIsAuthenticated] = useState(null);
+  const [hasFetchedVerification, setHasFetchedVerification] = useState(false);
   const [authInit, setAuthInit] = useState(null);
   const [fadeProp, setFadeProp] = useState({
     fade: "",
@@ -23,7 +24,7 @@ function AuthModal({ setIsAuthenticatedCallback }) {
       setAuthInit(response.data);
     }
 
-    async function fetchData() {
+    async function fetchVerification() {
       const response = await axios.get(
         process.env.REACT_APP_API_URL + "/api/auth/verify",
         {
@@ -43,7 +44,6 @@ function AuthModal({ setIsAuthenticatedCallback }) {
           });
           setInterval(() => {
             setIsAuthenticated(isAuthenticated);
-            setIsAuthenticatedCallback(isAuthenticated);
           }, 1000);
         }, 1000);
       } else {
@@ -54,10 +54,15 @@ function AuthModal({ setIsAuthenticatedCallback }) {
         }
       }
     }
-    fetchData();
-    const interval = setInterval(fetchData, 1000);
-    return () => clearInterval(interval);
-  }, [setIsAuthenticatedCallback]);
+    if (isAuthenticated === false) {
+      const interval = setInterval(fetchVerification, 1000);
+      return () => clearInterval(interval);
+    }
+    if (!hasFetchedVerification) {
+      fetchVerification();
+      setHasFetchedVerification(true);
+    }
+  }, [isAuthenticated, hasFetchedVerification]);
 
   if (isAuthenticated == null || isAuthenticated === true) {
     return null; // remove the overlay when authenticated
