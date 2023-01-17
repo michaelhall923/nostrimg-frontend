@@ -5,7 +5,7 @@ import { RiImage2Line } from "react-icons/ri";
 import { useNavigate } from "react-router";
 import Spinner from "./Spinner";
 
-export default function FilePicker({ setFile, file, isUploading }) {
+const FilePicker = ({ setFile, file, isUploading, fileType }) => {
   const fileInputRef = useRef(null);
   const imageIconRef = useRef(null);
   const loaderIconRef = useRef(null);
@@ -17,9 +17,13 @@ export default function FilePicker({ setFile, file, isUploading }) {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 100vw;
+    width: 100%;
     font-family: "Fira Code", monospace;
     cursor: pointer;
+
+    h3 {
+      color: white;
+    }
   `;
 
   // Handle the drop event on the label
@@ -74,6 +78,28 @@ export default function FilePicker({ setFile, file, isUploading }) {
     }
   }, [setFile, isUploading, file, navigate]);
 
+  const renderAccept = () => {
+    switch (fileType) {
+      case "image":
+        return "image/jpeg,image/jpg,image/png,image/webp,image/gif";
+      case "video":
+        return "video/mp4,video/webm,video/avi,video/mov,video/h264";
+      default:
+        return "*";
+    }
+  };
+
+  const renderSupportedFormats = () => {
+    switch (fileType) {
+      case "image":
+        return "jpg/jpeg, png, webp, gif";
+      case "video":
+        return "mp4, webm, avi, mov, quicktime";
+      default:
+        return "all";
+    }
+  };
+
   return (
     <label
       htmlFor="file"
@@ -89,26 +115,23 @@ export default function FilePicker({ setFile, file, isUploading }) {
           <div ref={imageIconRef}>
             <RiImage2Line
               css={css`
-                padding-top: 100%;
-                /* margin-left: -100%; */
                 width: 100%;
                 height: 100%;
-                margin-top: -100%;
               `}
             />
           </div>
           <div className="hidden" ref={loaderIconRef}>
             <Spinner />
           </div>
-          <h3>Click or drag to upload.</h3>
-          <h3>Supported formats: jpg/jpeg, png, webp, gif.</h3>
+          <h3>Click or drag to upload</h3>
+          <h3>Supported formats: {renderSupportedFormats()}</h3>
         </div>
       </label>
       <input
         id="file"
         ref={fileInputRef}
         type="file"
-        accept="image/jpeg,image/jpg,image/png,image/webp,image/gif"
+        accept={renderAccept()}
         onChange={(event) => {
           setFile(event.target.files[0]);
         }}
@@ -120,4 +143,6 @@ export default function FilePicker({ setFile, file, isUploading }) {
       />
     </label>
   );
-}
+};
+
+export default FilePicker;

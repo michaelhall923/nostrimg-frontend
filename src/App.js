@@ -4,10 +4,11 @@ import { Routes, Route } from "react-router-dom";
 import ImagePage from "./Pages/ImagePage";
 import Home from "./Pages/Home";
 import Nips from "./Pages/Nips";
+import GIFify from "./Pages/GIFify";
 
 function App() {
   return (
-    <div className="App bg-indigo-900">
+    <div className="App bg-indigo-900 text-violet-300">
       <Helmet>
         <title>Nostrimg</title>
         <meta
@@ -25,6 +26,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/i/:fileName" element={<ImagePage />} />
         <Route path="/nips" element={<Nips />} />
+        <Route path="/GIFify" element={<GIFify />} />
       </Routes>
     </div>
   );

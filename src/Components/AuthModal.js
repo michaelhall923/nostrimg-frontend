@@ -70,14 +70,14 @@ function AuthModal() {
 
   return (
     <div
-      className={`absolute flex flex-col items-center justify-center bg-violet-400 bg-opacity-95 w-full break-word h-full font-bold text-indigo-900 ${fadeProp.fade}`}
+      className={`fixed top-0 left-0 flex flex-col items-center justify-center bg-violet-400 bg-opacity-95 w-full break-word h-full font-bold text-indigo-900 ${fadeProp.fade}`}
     >
       <div className=" flex-grow flex flex-col items-center justify-center">
         <div className="flex flex-col items-center justify-center p-4 md:max-w-screen-xl mx-auto bg-violet-400 rounded-xl">
           <div className="mb-2 bg-violet-400 rounded">
             {fadeProp.isFadingOut
               ? "Authenticated!"
-              : "Pay 100 SATS To Prove You're Human"}
+              : "Pay 123 SATS For Unlimited Access"}
           </div>
           {authInit && (
             <>

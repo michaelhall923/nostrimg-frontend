@@ -32,7 +32,12 @@ export default function Home() {
   return (
     <div className="h-screen flex flex-col">
       <Header />
-      <FilePicker file={file} setFile={setFile} isUploading={isUploading} />
+      <FilePicker
+        fileType="image"
+        file={file}
+        setFile={setFile}
+        isUploading={isUploading}
+      />
       <AuthModal />
     </div>
   );
