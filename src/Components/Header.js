@@ -8,10 +8,10 @@ function Header() {
         <Link to="/" className="px-2">
           Upload Image
         </Link>
-        {/* |
+        |
         <Link to="/gifify" className="px-2">
           GIF-ify!
-        </Link> */}
+        </Link>
         |
         <Link to="/nips" className="px-2">
           NIPs
