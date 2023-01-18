@@ -1,8 +1,7 @@
 import axios from "axios";
 import { useState, useEffect, useRef } from "react";
-import { RiCheckFill } from "react-icons/ri";
+import { RiFileCopyLine, RiCheckFill, RiCheckLine } from "react-icons/ri";
 import { QRCodeSVG } from "qrcode.react";
-import Clipboard from "react-clipboard-animation";
 
 function AuthModal() {
   const [isAuthenticated, setIsAuthenticated] = useState(null);
@@ -19,9 +18,12 @@ function AuthModal() {
     const timeout = setTimeout(() => {
       if (invoiceCopied) setInvoiceCopied(false);
     }, 1000);
+    if (invoiceCopied) {
+      navigator.clipboard.writeText(authInit.lightningDestination);
+    }
 
     return () => clearTimeout(timeout);
-  }, [invoiceCopied]);
+  }, [invoiceCopied, authInit]);
 
   useEffect(() => {
     async function fetchAuthInit() {
@@ -119,18 +121,16 @@ function AuthModal() {
               <button
                 className="flex items-center p-2"
                 onClick={(e) => {
-                  e.target.querySelector(".button").click();
+                  setInvoiceCopied(true);
                 }}
               >
                 Copy Invoice
-                <div className="ml-2">
-                  <Clipboard
-                    copied={invoiceCopied}
-                    setCopied={setInvoiceCopied}
-                    text={authInit.lightningDestination}
-                    color="white"
-                    className="inline-block"
-                  />
+                <div className="ml-2 text-lg text-white">
+                  {invoiceCopied ? (
+                    <RiCheckLine />
+                  ) : (
+                    <RiFileCopyLine className="hover:text-indigo-900" />
+                  )}
                 </div>
               </button>
             </>

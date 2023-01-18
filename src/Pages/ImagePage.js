@@ -4,9 +4,12 @@ import { useLocation, useParams } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { css } from "@emotion/react";
 import { QRCodeSVG } from "qrcode.react";
-import { RiArrowLeftCircleLine } from "react-icons/ri";
+import {
+  RiArrowLeftCircleLine,
+  RiCheckLine,
+  RiFileCopyLine,
+} from "react-icons/ri";
 import Header from "../Components/Header";
-import Clipboard from "react-clipboard-animation";
 
 const imgStyle = css``;
 
@@ -22,28 +25,19 @@ function ImagePage() {
   // We can use the `useParams` hook here to access
   // the dynamic pieces of the URL.
   let { fileName } = useParams();
-  const [copied, setCopied] = useState(false);
   const [directLinkCopied, setDirectLinkCopied] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
     const timeout = setTimeout(() => {
-      if (copied) setCopied(false);
+      if (directLinkCopied) setDirectLinkCopied(false);
     }, 1000);
-    if (copied) {
+    if (directLinkCopied) {
       navigator.clipboard.writeText(`https://i.nostrimg.com/${fileName}`);
     }
 
     return () => clearTimeout(timeout);
-  }, [copied, fileName]);
-
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      if (directLinkCopied) setDirectLinkCopied(false);
-    }, 1000);
-
-    return () => clearTimeout(timeout);
-  }, [directLinkCopied]);
+  }, [directLinkCopied, fileName]);
 
   return (
     <div>
@@ -66,17 +60,15 @@ function ImagePage() {
           <div>Direct Link:</div>
           <button
             className="bg-violet-400 text-indigo-900 flex items-center p-2 rounded cursor-pointer break-word text-xs md:text-base"
-            onClick={(e) => e.target.querySelector(".button").click()}
+            onClick={(e) => setDirectLinkCopied(true)}
           >
             https://i.nostrimg.com/{fileName}{" "}
-            <div className="ml-2">
-              <Clipboard
-                copied={directLinkCopied}
-                setCopied={setDirectLinkCopied}
-                text={`https://i.nostrimg.com/${fileName}`}
-                color="white"
-                className="inline-block"
-              />
+            <div className="ml-2 text-lg text-white">
+              {directLinkCopied ? (
+                <RiCheckLine />
+              ) : (
+                <RiFileCopyLine className="hover:text-indigo-900" />
+              )}
             </div>
           </button>
         </h3>
