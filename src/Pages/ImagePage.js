@@ -5,9 +5,8 @@ import { Helmet } from "react-helmet-async";
 import { css } from "@emotion/react";
 import { QRCodeSVG } from "qrcode.react";
 import { RiArrowLeftCircleLine } from "react-icons/ri";
-import Clippy from "../Components/Clippy";
-import Check from "../Components/Check";
 import Header from "../Components/Header";
+import Clipboard from "react-clipboard-animation";
 
 const imgStyle = css``;
 
@@ -24,6 +23,7 @@ function ImagePage() {
   // the dynamic pieces of the URL.
   let { fileName } = useParams();
   const [copied, setCopied] = useState(false);
+  const [directLinkCopied, setDirectLinkCopied] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
@@ -36,6 +36,14 @@ function ImagePage() {
 
     return () => clearTimeout(timeout);
   }, [copied, fileName]);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      if (directLinkCopied) setDirectLinkCopied(false);
+    }, 1000);
+
+    return () => clearTimeout(timeout);
+  }, [directLinkCopied]);
 
   return (
     <div>
@@ -56,54 +64,21 @@ function ImagePage() {
         />
         <h3 className="mb-4 py-8">
           <div>Direct Link:</div>
-          <span
-            className="bg-violet-400 text-indigo-900 p-2 rounded cursor-pointer break-word text-xs md:text-base"
-            onClick={() => setCopied(true)}
+          <button
+            className="bg-violet-400 text-indigo-900 flex items-center p-2 rounded cursor-pointer break-word text-xs md:text-base"
+            onClick={(e) => e.target.querySelector(".button").click()}
           >
             https://i.nostrimg.com/{fileName}{" "}
-            <span>
-              <button
-                css={{
-                  appearance: "none",
-                  padding: 8,
-                  border: 0,
-                  outline: 0,
-                  cursor: "pointer",
-                }}
-              >
-                <div
-                  css={{
-                    position: "relative",
-                    height: 16,
-                    width: 16,
-                  }}
-                >
-                  <Clippy
-                    css={{
-                      color: "rgb(192, 192, 192)",
-                      position: "absolute",
-                      top: 0,
-                      left: 0,
-                      strokeDasharray: 50,
-                      strokeDashoffset: copied ? -50 : 0,
-                      transition: "all 300ms ease-in-out",
-                    }}
-                  />
-                  <Check
-                    css={{
-                      color: "rgb(64, 192, 0)",
-                      position: "absolute",
-                      top: 0,
-                      left: 0,
-                      strokeDasharray: 50,
-                      strokeDashoffset: copied ? 0 : -50,
-                      transition: "all 300ms ease-in-out",
-                    }}
-                  />
-                </div>
-              </button>
-            </span>
-          </span>
+            <div className="ml-2">
+              <Clipboard
+                copied={directLinkCopied}
+                setCopied={setDirectLinkCopied}
+                text={`https://i.nostrimg.com/${fileName}`}
+                color="white"
+                className="inline-block"
+              />
+            </div>
+          </button>
         </h3>
         {location.state?.lightningPaymentLink ? (
           <a href={location.state.lightningPaymentLink}>
