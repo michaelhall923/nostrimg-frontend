@@ -17,7 +17,7 @@ function AuthModal() {
   useEffect(() => {
     const timeout = setTimeout(() => {
       if (invoiceCopied) setInvoiceCopied(false);
-    }, 1000);
+    }, 2000);
     if (invoiceCopied) {
       navigator.clipboard.writeText(authInit.lightningDestination);
     }

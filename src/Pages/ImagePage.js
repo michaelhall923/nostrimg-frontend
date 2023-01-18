@@ -31,7 +31,7 @@ function ImagePage() {
   useEffect(() => {
     const timeout = setTimeout(() => {
       if (directLinkCopied) setDirectLinkCopied(false);
-    }, 1000);
+    }, 2000);
     if (directLinkCopied) {
       navigator.clipboard.writeText(`https://i.nostrimg.com/${fileName}`);
     }
