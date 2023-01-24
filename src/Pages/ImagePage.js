@@ -10,6 +10,7 @@ import {
   RiFileCopyLine,
 } from "react-icons/ri";
 import Header from "../Components/Header";
+import TinifyButton from "../Components/TinifyButton";
 
 const imgStyle = css``;
 
@@ -26,6 +27,8 @@ function ImagePage() {
   // the dynamic pieces of the URL.
   let { fileName } = useParams();
   const [directLinkCopied, setDirectLinkCopied] = useState(false);
+  const [fileSize, setFileSize] = useState(null);
+  const [tinifyEnabled, setTinifyEnabled] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
@@ -39,8 +42,23 @@ function ImagePage() {
     return () => clearTimeout(timeout);
   }, [directLinkCopied, fileName]);
 
+  useEffect(() => {
+    fetch(`https://i.nostrimg.com/${fileName}`, {
+      method: "HEAD",
+    }).then((response) => {
+      const contentLength = response.headers.get("Content-Length");
+      if (contentLength < 1024 * 1024) {
+        setFileSize(`${Math.ceil(contentLength / 1024)} KB`);
+      } else {
+        setFileSize(`${Math.ceil((contentLength / 1024 / 1024) * 10) / 10} MB`);
+      }
+      setTinifyEnabled(response.headers.get("Content-Type") === "image/gif");
+    });
+    // eslint-disable-next-line
+  }, [fileName]);
+
   return (
-    <div>
+    <div key={fileName}>
       <Helmet>
         <title>{fileName} | Nostrimg</title>
         <meta
@@ -56,10 +74,10 @@ function ImagePage() {
           src={`https://i.nostrimg.com/${fileName}`}
           alt={fileName}
         />
-        <h3 className="mb-4 py-8">
-          <div>Direct Link:</div>
+        <h3 className="mb-4 pt-8">
+          <div>Direct Link: {fileSize ? <span>({fileSize})</span> : null}</div>
           <button
-            className="bg-violet-400 text-indigo-900 flex items-center p-2 rounded cursor-pointer break-word text-xs md:text-base"
+            className="mx-auto bg-violet-400 text-indigo-900 flex items-center p-2 rounded cursor-pointer break-word text-xs md:text-base"
             onClick={(e) => setDirectLinkCopied(true)}
           >
             https://i.nostrimg.com/{fileName}{" "}
@@ -72,6 +90,12 @@ function ImagePage() {
             </div>
           </button>
         </h3>
+        {tinifyEnabled ? (
+          <TinifyButton
+            imageUrl={`https://i.nostrimg.com/${fileName}`}
+            className=" text-violet-400 p-2 mb-4 rounded block mx-auto border-2 border-violet-400"
+          />
+        ) : null}
         {location.state?.lightningPaymentLink ? (
           <a href={location.state.lightningPaymentLink}>
             <div className="flex flex-col md:flex-row items-center justify-center">

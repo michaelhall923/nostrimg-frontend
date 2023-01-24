@@ -21,6 +21,18 @@ export async function uploadImage(file) {
   }
 }
 
+export async function tinify(imageUrl) {
+  try {
+    const response = await axios.get(
+      process.env.REACT_APP_API_URL + "/api/upload/tinify",
+      { params: { imageUrl: imageUrl } }
+    );
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 export async function gifify(file, crop, length) {
   const formData = new FormData();
   formData.append("video", file);
