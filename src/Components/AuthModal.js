@@ -89,7 +89,7 @@ function AuthModal() {
           <div className="mb-2 bg-violet-400 rounded">
             {fadeProp.isFadingOut
               ? "Authenticated!"
-              : "Pay 123 SATS For Unlimited Access"}
+              : "Pay 615 SATS For Unlimited Access"}
           </div>
           {authInit && (
             <>
