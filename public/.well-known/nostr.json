@@ -1,4 +1,19 @@
 {
+  "media": {
+    "apiPath": "https://nostrimg.com/api",
+    "mediaPath": "https://i.nostrimg.com",
+    "acceptedMimetypes": [
+      "image/jpg",
+      "image/jpeg",
+      "image/png",
+      "image/webp",
+      "image/gif"
+    ],
+    "contentPolicy": {
+      "allowAdultContent": false,
+      "allowViolentContent": true
+    }
+  },
   "names": {
     "henry": "3335d373e6c1b5bc669b4b1220c08728ea8ce622e5a7cfeeb4c0001d91ded1de"
   }
