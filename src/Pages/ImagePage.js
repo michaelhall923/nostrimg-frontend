@@ -25,7 +25,8 @@ const imagePageStyle = css`
 function ImagePage() {
   // We can use the `useParams` hook here to access
   // the dynamic pieces of the URL.
-  let { fileName } = useParams();
+  let { hash, fileName } = useParams();
+  if (hash) fileName = `${hash}/${fileName}`;
   const [directLinkCopied, setDirectLinkCopied] = useState(false);
   const [fileSize, setFileSize] = useState(null);
   const [tinifyEnabled, setTinifyEnabled] = useState(false);
@@ -77,7 +78,7 @@ function ImagePage() {
         <h3 className="mb-4 pt-8">
           <div>Direct Link: {fileSize ? <span>({fileSize})</span> : null}</div>
           <button
-            className="mx-auto bg-violet-400 text-indigo-900 flex items-center p-2 rounded cursor-pointer break-word text-xs md:text-base"
+            className="mx-auto bg-violet-400 text-indigo-900 flex items-center p-2 rounded cursor-pointer break-all text-xs md:text-base"
             onClick={(e) => setDirectLinkCopied(true)}
           >
             https://i.nostrimg.com/{fileName}{" "}

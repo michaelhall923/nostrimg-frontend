@@ -25,6 +25,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/i/:fileName" element={<ImagePage />} />
+        <Route path="/i/:hash/:fileName" element={<ImagePage />} />
         <Route path="/nips" element={<Nips />} />
         <Route path="/GIFify" element={<GIFify />} />
       </Routes>
